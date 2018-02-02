@@ -16,6 +16,8 @@ from sklearn.feature_selection import RFECV
 import time
 import operator
 from sklearn.externals import joblib
+from sklearn.decomposition import PCA
+from  sklearn import preprocessing
 
 def name_process(data):
     data['Title'] = data['Name'].str.extract(' ([A-Za-z]+)\.', expand=False)
@@ -122,7 +124,7 @@ if __name__=='__main__':
     y = train['Survived']
     X_final_test = test.drop(['PassengerId', 'Name', 'Surname', 'Ticket', 'Sex', 'Survived'], axis=1).copy()
 
-    # x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.25, random_state=1)
+    x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.25, random_state=1)
 
 
     # max_score = 0
@@ -159,7 +161,6 @@ if __name__=='__main__':
     #
     #                                                                                         ascending=False))
     # Y_pred = best_forest.predict(X_final_test)
-
 
     forest = ensemble.RandomForestClassifier(n_estimators=300, min_samples_leaf=4, class_weight={0: 0.745, 1: 0.255})
     forest.fit(x, y)
